@@ -1,6 +1,6 @@
 {
-  "name": "if-plugin-template",
-  "description": "<PLUGIN-NAME> plugin for Impact Framework.",
+  "name": "if-power-breakdown",
+  "description": "Power breakdown plugin for Impact Framework.",
   "version": "0.1.1",
   "author": {
     "name": "Green Software Foundation",
@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@grnsft/if-core": "^0.0.25",
-    "typescript": "^5.1.6"
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.3"
   },
   "devDependencies": {
     "@babel/core": "7.22.10",

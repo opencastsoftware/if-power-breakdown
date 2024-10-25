@@ -1,9 +1,9 @@
-import {MyCustomPlugin} from '../../lib/my-custom-plugin';
+import {PowerBreakdown} from '../../lib/if-power-breakdown';
 
 describe('lib/my-custom-plugin: ', () => {
   describe('MyCustomPlugin(): ', () => {
     it('has metadata field.', () => {
-      const pluginInstance = MyCustomPlugin({}, {}, {});
+      const pluginInstance = PowerBreakdown({}, {}, {});
 
       expect(pluginInstance).toHaveProperty('metadata');
       expect(pluginInstance).toHaveProperty('execute');
@@ -12,11 +12,11 @@ describe('lib/my-custom-plugin: ', () => {
 
     describe('execute(): ', () => {
       it('applies logic on provided inputs array.', async () => {
-        const pluginInstance = MyCustomPlugin({}, {}, {});
-        const inputs = [{}];
+        const pluginInstance = PowerBreakdown({}, {}, {});
+        const inputs = [{geolocation: '50.0,20.0'}];
 
         const response = await pluginInstance.execute(inputs);
-        expect(response).toEqual(inputs);
+        expect(response[0]['gas']).not.toBeNull();
       });
     });
   });
