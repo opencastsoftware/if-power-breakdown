@@ -1,6 +1,8 @@
 import {PluginFactory} from '@grnsft/if-core/interfaces';
 import {PluginParams, ConfigParams} from '@grnsft/if-core/types';
 import {fetchPowerConsumption} from '../api/electricity-maps';
+import {calculatePercentageBreakdown} from '../util/utils';
+import {HistoryEntry} from '../api/interfaces/electricity-maps-interfaces';
 
 export const PowerBreakdown = PluginFactory({
   configValidation: (config: ConfigParams) => {
@@ -9,7 +11,7 @@ export const PowerBreakdown = PluginFactory({
     return config;
   },
   inputValidation: (input: PluginParams) => {
-    const regex = new RegExp('^\\-?\\d{1,3}\\.\\d+,-?\\d{1,3}\\.\\d+$');
+    const regex = new RegExp('^-?\\d{1,3}\\.\\d+,-?\\d{1,3}\\.\\d+$');
 
     if (!regex.test(input.geolocation)) {
       throw new Error(
@@ -47,17 +49,25 @@ export const PowerBreakdown = PluginFactory({
         const date = new Date(input.timestamp);
         const inputHour = date.getHours();
 
-        const matchingData = powerConsumptionBreakdownPerDay.find(data => {
+        const matchingBreakDown = powerConsumptionBreakdownPerDay.find(data => {
           const date = new Date(data.datetime);
           return date.getHours() === inputHour;
         });
 
-        console.log('matching data: ' + matchingData);
-        console.log(JSON.stringify(matchingData));
+        //console.log(JSON.stringify(matchingBreakDown));
+
+        let percentageBreakdown = null;
+        if (matchingBreakDown && matchingBreakDown.powerConsumptionBreakdown) {
+          percentageBreakdown = calculatePercentageBreakdown(
+            matchingBreakDown.powerConsumptionBreakdown
+          );
+        }
+
         return {
           ...input,
-          ['powerBreakDown']: matchingData?.powerConsumptionBreakdown.gas,
-          ['zone']: matchingData?.zone,
+          ['powerBreakDownPercentage']: JSON.stringify(percentageBreakdown),
+          //['powerBreakDown']: matchingBreakDown?.powerConsumptionBreakdown.gas,
+          ['zone']: matchingBreakDown?.zone,
         };
       })
     );

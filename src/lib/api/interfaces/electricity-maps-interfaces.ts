@@ -1,5 +1,5 @@
 // Define TypeScript interfaces to represent the updated data structure
-interface PowerBreakdown {
+export interface PowerBreakdownType {
   biomass: number | null;
   coal: number | null;
   gas: number | null;
@@ -18,24 +18,24 @@ interface PowerImportExportBreakdown {
   [key: string]: number;
 }
 
-interface HistoryEntry {
+export interface HistoryEntry {
   zone: string;
   datetime: string;
   fossilFreePercentage: number;
-  powerConsumptionBreakdown: PowerBreakdown;
+  powerConsumptionBreakdown: PowerBreakdownType;
   powerConsumptionTotal: number;
   powerImportBreakdown: PowerImportExportBreakdown;
   powerImportTotal: number;
   powerExportBreakdown: PowerImportExportBreakdown;
   powerExportTotal: number;
-  powerProductionBreakdown: PowerBreakdown;
+  powerProductionBreakdown: PowerBreakdownType;
   powerProductionTotal: number;
   renewablePercentage: number;
   isEstimated: boolean;
   estimationMethod: string | null;
 }
 
-interface EnergyData {
+export interface EnergyData {
   zone: string;
   history: HistoryEntry[];
 }

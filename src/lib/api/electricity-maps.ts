@@ -1,3 +1,5 @@
+import {EnergyData} from './interfaces/electricity-maps-interfaces';
+
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -22,7 +24,7 @@ export async function fetchPowerConsumption(
   timestamp: Date
 ): Promise<{energyData: EnergyData; country: string}> {
   const base_url = 'https://api.electricitymap.org/v3/power-breakdown/history';
-  console.log('calling api');
+  //console.log('calling api');
 
   try {
     const response = await axios({
