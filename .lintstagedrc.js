@@ -1,6 +1,4 @@
 module.exports = {
-  '*.ts': [
-    'gts lint',
-  ],
+  '*.ts': ['gts lint'],
   'package.json': 'fixpack',
-}
+};

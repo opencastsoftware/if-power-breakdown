@@ -35,14 +35,14 @@ runPlugin();
 
 ## Testing plugin integration
 
->Note: The [If Core](https://github.com/Green-Software-Foundation/if-core) repository contains the `PluginFactory` interface, utility functions, and a set of error classes that can be fully integrated with the IF framework. Detailed information on each error class can be found in the [Errors Reference](../reference/errors.md).
+> Note: The [If Core](https://github.com/Green-Software-Foundation/if-core) repository contains the `PluginFactory` interface, utility functions, and a set of error classes that can be fully integrated with the IF framework. Detailed information on each error class can be found in the [Errors Reference](../reference/errors.md).
 
 ### Using local links
 
-For using locally developed plugin in `IF Framework` please follow these steps: 
+For using locally developed plugin in `IF Framework` please follow these steps:
 
 1. On the root level of a locally developed plugin run `npm link`, which will create global package. It uses `package.json` file's `name` field as a package name. Additionally name can be checked by running `npm ls -g --depth=0 --link=true`.
-2. Use the linked plugin in manifest by specifying `name`, `method`, `path` in initialize plugins section. 
+2. Use the linked plugin in manifest by specifying `name`, `method`, `path` in initialize plugins section.
 
 ```yaml
 name: plugin-demo-link
@@ -52,10 +52,8 @@ initialize:
   plugins:
     my-custom-plugin:
       method: MyCustomPlugin
-      path: "<name-field-from-package.json>"
-      config:
-        ...
-...
+      path: '<name-field-from-package.json>'
+      config: ...
 ```
 
 ### Using directly from Github
@@ -63,7 +61,7 @@ initialize:
 You can simply push your plugin to the public Github repository and pass the path to it in your manifest.
 For example, for a plugin saved in `github.com/my-repo/my-plugin` you can do the following:
 
-npm install your plugin: 
+npm install your plugin:
 
 ```
 npm install -g https://github.com/my-repo/my-plugin
@@ -80,9 +78,7 @@ initialize:
     my-custom-plugin:
       method: MyCustomPlugin
       path: https://github.com/my-repo/my-plugin
-      config:
-        ...
-...
+      config: ...
 ```
 
 Now, when you run the `manifest` using the IF CLI, it will load the plugin automatically. Run using:

@@ -1,4 +1,4 @@
-import {PowerBreakdown} from '../../lib/if-power-breakdown';
+import {PowerBreakdown} from '../../lib';
 
 describe('lib/my-custom-plugin: ', () => {
   describe('MyCustomPlugin(): ', () => {
