@@ -1,6 +1,6 @@
 import {PluginFactory} from '@grnsft/if-core/interfaces';
 import {PluginParams, ConfigParams} from '@grnsft/if-core/types';
-import {getPowerConsumptionBreakdown} from '../services/power-consumption-service';
+import {fetchPowerConsumption} from '../api/electricity-maps';
 
 export const PowerBreakdown = PluginFactory({
   configValidation: (config: ConfigParams) => {
@@ -21,22 +21,44 @@ export const PowerBreakdown = PluginFactory({
   },
   implementation: async (inputs: PluginParams[], config: ConfigParams) => {
     const {yourValue} = config;
-    const cache = new Map<string, Promise<any> | PowerBreakdown>();
+    const cache = new Map<string, Promise<any> | HistoryEntry[]>();
 
     const results = await Promise.all(
       inputs.map(async input => {
-        const cacheKey = `${input.geolocation}-${input.timestamp}`;
+        const cacheKey = `${input.geolocation}`;
         if (!cache.has(cacheKey)) {
-          const fetchPromise = getPowerConsumptionBreakdown(
-            input,
-            cacheKey,
-            cache
-          );
+          const [latitude, longitude] = input.geolocation.split(',');
+          const fetchPromise = fetchPowerConsumption(
+            latitude,
+            longitude,
+            input.timestamp as Date
+          ).then(pc => {
+            const latestBreakdownHistory = pc.energyData.history;
+            cache.set(cacheKey, latestBreakdownHistory);
+            return latestBreakdownHistory;
+          });
           cache.set(cacheKey, fetchPromise);
         }
 
-        const powerConsumptionBreakdown = await cache.get(cacheKey);
-        return {...input, ['power-break-down']: powerConsumptionBreakdown.gas};
+        const powerConsumptionBreakdownPerDay = (await cache.get(
+          cacheKey
+        )) as HistoryEntry[];
+
+        const date = new Date(input.timestamp);
+        const inputHour = date.getHours();
+
+        const matchingData = powerConsumptionBreakdownPerDay.find(data => {
+          const date = new Date(data.datetime);
+          return date.getHours() === inputHour;
+        });
+
+        console.log('matching data: ' + matchingData);
+        console.log(JSON.stringify(matchingData));
+        return {
+          ...input,
+          ['powerBreakDown']: matchingData?.powerConsumptionBreakdown.gas,
+          ['zone']: matchingData?.zone,
+        };
       })
     );
     yourValue;

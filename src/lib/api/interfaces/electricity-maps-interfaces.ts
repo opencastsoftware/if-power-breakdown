@@ -19,6 +19,7 @@ interface PowerImportExportBreakdown {
 }
 
 interface HistoryEntry {
+  zone: string;
   datetime: string;
   fossilFreePercentage: number;
   powerConsumptionBreakdown: PowerBreakdown;

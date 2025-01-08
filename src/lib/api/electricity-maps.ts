@@ -37,8 +37,8 @@ export async function fetchPowerConsumption(
       headers: headers,
     });
     //console.log('Power consumption returned ' + JSON.stringify(response.data));
-    console.log(`pc returned: 
-    ${JSON.stringify(response.data.history[0].powerConsumptionBreakdown)}`);
+    //console.log(`pc returned:
+    //${JSON.stringify(response.data.history[0].powerConsumptionBreakdown)}`);
 
     const energyData: EnergyData = response.data;
     const country = getCountry(energyData.zone);
