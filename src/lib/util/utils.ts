@@ -11,7 +11,7 @@ export const calculatePercentageBreakdown = (
 
   for (const [key, value] of Object.entries(breakdown)) {
     if (value !== null) {
-      percentageBreakdown[key] = parseFloat(((value / total) * 100).toFixed(2));
+      percentageBreakdown[key] = Math.round((value / total) * 100);
     }
   }
 
