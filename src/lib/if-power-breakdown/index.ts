@@ -21,8 +21,7 @@ export const PowerBreakdown = PluginFactory({
 
     return input;
   },
-  implementation: async (inputs: PluginParams[], config: ConfigParams) => {
-    const {yourValue} = config;
+  implementation: async (inputs: PluginParams[]) => {
     const cache = new Map<string, Promise<any> | HistoryEntry[]>();
 
     const results = await Promise.all(
@@ -54,8 +53,6 @@ export const PowerBreakdown = PluginFactory({
           return date.getHours() === inputHour;
         });
 
-        //console.log(JSON.stringify(matchingBreakDown));
-
         let percentageBreakdown = null;
         if (matchingBreakDown && matchingBreakDown.powerConsumptionBreakdown) {
           percentageBreakdown = calculatePercentageBreakdown(
@@ -66,12 +63,9 @@ export const PowerBreakdown = PluginFactory({
         return {
           ...input,
           ['powerBreakDownPercentage']: JSON.stringify(percentageBreakdown),
-          //['powerBreakDown']: matchingBreakDown?.powerConsumptionBreakdown.gas,
-          ['zone']: matchingBreakDown?.zone,
         };
       })
     );
-    yourValue;
     return results;
   },
 });

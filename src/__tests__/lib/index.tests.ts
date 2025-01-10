@@ -80,7 +80,6 @@ describe('lib/my-custom-plugin: ', () => {
               },
             ],
           },
-          country: 'FR',
         };
 
         mockedFetchPowerConsumption.mockResolvedValue(mockResponse);
@@ -104,7 +103,6 @@ describe('lib/my-custom-plugin: ', () => {
         expect(response[0]['powerBreakDownPercentage']).toBe(
           expectedPercentageBreakdown
         );
-        expect(response[0]['zone']).toBe('FR');
       });
     });
   });
